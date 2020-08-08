@@ -1,8 +1,22 @@
 var express = require('express');
 var router = express.Router();
+// Make sure to require your models in the files where they will be used.
+var db = require('../models');
+
+
+
 
 // GET /pokemon - return a page with favorited Pokemon
 router.get('/', function(req, res) {
+  // db.pokemon.create({
+  //   name: 'Pikachu'
+  // }).then(function(poke) {
+  //   console.log('Created: ', poke.name)
+  // })
+  
+  // db.pokemon.findAll().then(function(poke) {
+  //   console.log('Found: ', poke.name)
+  // })
   // TODO: Get all records from the DB and render to view
   res.send('Render a page of favorites here');
 });
