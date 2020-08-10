@@ -79,11 +79,43 @@ You'll want to add functionality to the following routes by incorporating the `p
   * View: `views/pokemon/index.ejs`
   * Purpose: Retrieve all favorited Pokemon and display them on the page
   * What sequelize function will do this for us?
+
+  ## Create a File called Fave.ejs:
+```  
+  <div class="container">
+    <h3 class="text-center">YOUR FAVORITE POKEMON</h3>
+<% pokemon.forEach(function(pokemon) { %>
+    <div class="well">
+      <h4><a href="/pokemon/<%= pokemon.name %>"><%= pokemon.name %></a></h4>
+      <form method="POST" action="/pokemon">
+        <input hidden type="text" name="name" value="<%= pokemon.name %>">
+      </form>
+    </div>
+  <% }); %>
+</div>
+```
+
 * `POST /pokemon`
   * The form for adding is already included on the main index page
   * View: none (redirect to `/pokemon`)
   * Purpose: Creates a new Pokemon and redirects back to `/pokemon`
   * What is the sequelize function we use here?
+
+```
+router.post('/', function(req, res) {
+  // TODO: Get form data and add a new record to DB
+  db.pokemon.create({
+    name: req.body.name
+  })
+  .then(function(poke){
+    console.log('myFave', poke.name)
+    res.redirect('/pokemon')
+  })
+ 
+  //res.send(req.body);
+});
+```
+  
 
 #### Part 4: Display more info on each Pokemon
 
@@ -94,6 +126,47 @@ Add a route `GET /pokemon/:id` that renders a `show` page with information about
 
 Check out the result of the pokemon API calls (or see the [doc page](http://pokeapi.co/)) for ideas on what data you could show. Show at least 4 pieces of data (e.g. attacks, habitat, etc.)
 
+## Create a File called show.ejs
+```
+<h1><%= pokemon.name%></h1>
+
+    <div class="row">
+        <div class="col s12 m7">
+          <div class="card">
+            <div class="card-image">
+                <img src="<%= pokemon.sprites.other['official-artwork'].front_default %>" alt="<%= pokemon.name %>image">
+              <span class="card-title">Card Title</span>
+            </div>
+            <div class="card-content">
+                <h5>Weight: <%= pokemon.weight %></h5>
+                <h5>Height:  <%= pokemon.height %></h5>
+                <h5>Moves #1: <%= pokemon.moves[0].move.name %></h5>
+                <h5>Moves #2: <%= pokemon.moves[1].move.name %></h5>
+                <h5>Moves #3: <%= pokemon.moves[2].move.name %></h5>
+                <h5>Moves #4: <%= pokemon.moves[3].move.name %></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>  
+```
+```
+router.get('/:name', (req, res) => {
+  let name = req.params.name
+  console.log(name)
+axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+.then((response) => {
+  console.log(response.data)
+  let pokemon = response.data
+  //setting a variable to data
+  res.render('show', {pokemon: pokemon})
+})
+.catch(err => {
+  console.log(err, 'error')
+})
+
+})
+```
 #### Part 5: Styling
 
 When finished with the above, style the application more to your liking with CSS.
