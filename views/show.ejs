@@ -1,0 +1,23 @@
+
+
+<h1><%= pokemon.name%></h1>
+
+    <div class="row">
+        <div class="col s12 m7">
+          <div class="card">
+            <div class="card-image">
+                <img src="<%= pokemon.sprites.other['official-artwork'].front_default %>" alt="<%= pokemon.name %>image">
+              <span class="card-title">Card Title</span>
+            </div>
+            <div class="card-content">
+                <h5>Weight: <%= pokemon.weight %></h5>
+                <h5>Height:  <%= pokemon.height %></h5>
+                <h5>Moves #1: <%= pokemon.moves[0].move.name %></h5>
+                <h5>Moves #2: <%= pokemon.moves[1].move.name %></h5>
+                <h5>Moves #3: <%= pokemon.moves[2].move.name %></h5>
+                <h5>Moves #4: <%= pokemon.moves[3].move.name %></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>  
